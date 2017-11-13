@@ -8,4 +8,10 @@
     <color name="colorRed">#FF0000</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlack">#000000</color>
+    <color name="colorItem1">#04911e</color>
+    <color name="colorItem2">#FF4500</color>
+    <color name="colorItem3">#FFD700</color>
+    <color name="colorItem4">#20B2AA</color>
+
+    <color name="colorNoWhite">#00FFFFFF</color>
 </resources>

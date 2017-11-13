@@ -22,8 +22,6 @@ import android.widget.Toast;
 
 import com.example.jason.myvideoplayer.R;
 import com.example.jason.myvideoplayer.base.BaseActivity;
-import com.example.jason.myvideoplayer.mainPage.fragment.Tab1Fragment;
-import com.example.jason.myvideoplayer.mainPage.fragment.Tab2Fragment;
 import com.example.jason.myvideoplayer.newsPage.NewsHomePageFragment;
 import com.example.jason.myvideoplayer.photoPage.PhotoHomePageFragment;
 import com.example.jason.myvideoplayer.test2Activity;

@@ -17,9 +17,15 @@
         app:tabTextColor="@color/colorBlack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        <com.example.jason.myvideoplayer.customControls.VpSwipeRefreshLayout
+            android:id="@+id/swipe_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+    </com.example.jason.myvideoplayer.customControls.VpSwipeRefreshLayout>
 
 </LinearLayout>

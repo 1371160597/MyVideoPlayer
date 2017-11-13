@@ -14,9 +14,6 @@ import android.view.ViewGroup;
 import com.example.jason.myvideoplayer.R;
 import com.example.jason.myvideoplayer.mainPage.VideoHomePageActivity;
 import com.example.jason.myvideoplayer.mainPage.adapter.ViewPagerAdapter;
-import com.example.jason.myvideoplayer.mainPage.fragment.Tab1Fragment;
-import com.example.jason.myvideoplayer.mainPage.fragment.Tab2Fragment;
-import com.example.jason.myvideoplayer.mainPage.fragment.Tab3Fragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,12 +50,12 @@ public class PhotoHomePageFragment extends Fragment {
     }
 
     private void initFragment() {
-        fragmentList.add(new Tab1Fragment());
-        fragmentList.add(new Tab2Fragment());
-        fragmentList.add(new Tab3Fragment());
-        fragmentList.add(new Tab1Fragment());
-        fragmentList.add(new Tab2Fragment());
-        adapter.notifyDataSetChanged();
+//        fragmentList.add(new Tab1Fragment());
+//        fragmentList.add(new VideoFragment());
+//        fragmentList.add(new Tab3Fragment());
+//        fragmentList.add(new Tab1Fragment());
+//        fragmentList.add(new VideoFragment());
+//        adapter.notifyDataSetChanged();
     }
 
     @Override

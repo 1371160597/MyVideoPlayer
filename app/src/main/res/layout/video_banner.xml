@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.youth.banner.Banner
+        app:scroll_time="1500"
+        app:indicator_drawable_selected="@color/colorRed"
+        app:image_scale_type="fit_xy"
+        app:banner_default_image="@mipmap/video_banner_error"
+        android:id="@+id/video_banners"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"/>
+</LinearLayout>
