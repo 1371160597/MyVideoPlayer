@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+   <LinearLayout
+       android:orientation="vertical"
+       android:layout_marginTop="15dp"
+       android:layout_marginLeft="10dp"
+       android:layout_marginRight="10dp"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+       <LinearLayout
+           android:orientation="horizontal"
+           android:layout_marginLeft="5dp"
+           android:layout_marginRight="5dp"
+           android:id="@+id/video_message_type1_linear"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+           <LinearLayout
+               android:orientation="vertical"
+               android:layout_width="0dp"
+               android:layout_weight="1"
+               android:layout_height="wrap_content">
+               <TextView
+                   android:id="@+id/video_message_type1_linear_title"
+                   android:textColor="@color/colorBlack"
+                   android:textSize="16sp"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content" />
+               <LinearLayout
+                   android:orientation="horizontal"
+                   android:layout_gravity="center_vertical"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content">
+                   <TextView
+                       android:id="@+id/video_message_type1_linear_scores"
+                       android:textSize="12sp"
+                       android:textColor="@color/colorRed"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content" />
+                   <TextView
+                       android:id="@+id/video_message_type1_linear_dot1"
+                       android:layout_gravity="center_vertical"
+                       android:text="·"
+                       android:layout_marginLeft="5dp"
+                       android:layout_marginRight="5dp"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content" />
+                   <TextView
+                       android:id="@+id/video_message_type1_linear_number"
+                       android:textSize="12sp"
+                       android:textColor="@color/colorBlack"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content" />
+                   <TextView
+                       android:id="@+id/video_message_type1_linear_dot2"
+                       android:layout_gravity="center_vertical"
+                       android:text="·"
+                       android:layout_marginLeft="5dp"
+                       android:layout_marginRight="5dp"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content" />
+                   <TextView
+                       android:id="@+id/video_message_type1_linear_update"
+                       android:textSize="12sp"
+                       android:textColor="@color/colorBlack"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content" />
+               </LinearLayout>
+           </LinearLayout>
+           <ImageView
+               android:layout_marginRight="10dp"
+               android:layout_gravity="center"
+               android:src="@drawable/video_message_tip_down"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content" />
+       </LinearLayout>
+
+       <LinearLayout
+           android:id="@+id/video_message_type1_linear_hidden"
+           android:orientation="vertical"
+           android:layout_margin="5dp"
+           android:visibility="gone"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+           <TextView
+               android:id="@+id/video_message_type1_linear_hidden_text1"
+               android:textSize="14sp"
+               android:layout_marginTop="5dp"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content" />
+           <TextView
+               android:id="@+id/video_message_type1_linear_hidden_text2"
+               android:textSize="14sp"
+               android:layout_marginTop="5dp"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content" />
+           <TextView
+               android:id="@+id/video_message_type1_linear_hidden_text3"
+               android:textSize="14sp"
+               android:layout_marginTop="5dp"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content" />
+           <TextView
+               android:id="@+id/video_message_type1_linear_hidden_text4"
+               android:textSize="14sp"
+               android:layout_marginTop="5dp"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content" />
+           <TextView
+               android:id="@+id/video_message_type1_linear_hidden_text5"
+               android:textSize="14sp"
+               android:layout_marginTop="5dp"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content" />
+           <TextView
+               android:id="@+id/video_message_type1_linear_hidden_text6"
+               android:textSize="14sp"
+               android:layout_marginTop="5dp"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content" />
+           <TextView
+               android:id="@+id/video_message_type1_linear_hidden_text7"
+               android:textSize="14sp"
+               android:layout_marginTop="5dp"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content" />
+
+       </LinearLayout>
+       <View
+           android:layout_width="fill_parent"
+           android:layout_marginLeft="15dp"
+           android:layout_marginRight="15dp"
+           android:layout_marginTop="10dp"
+           android:layout_marginBottom="10dp"
+           android:layout_height="2px"
+           android:background="?android:attr/listDivider"/>
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:weightSum="5"
+           android:layout_height="wrap_content">
+           <ImageView
+               android:src="@drawable/video_message_good_one"
+               android:layout_width="0dp"
+               android:layout_weight="1"
+               android:layout_height="wrap_content" />
+           <ImageView
+               android:src="@drawable/video_message_bad_one"
+               android:layout_width="0dp"
+               android:layout_weight="1"
+               android:layout_height="wrap_content" />
+           <ImageView
+               android:src="@drawable/video_message_download"
+               android:layout_width="0dp"
+               android:layout_weight="1"
+               android:layout_height="wrap_content" />
+           <ImageView
+               android:src="@drawable/video_message_collect"
+               android:layout_width="0dp"
+               android:layout_weight="1"
+               android:layout_height="wrap_content" />
+           <ImageView
+               android:src="@drawable/video_message_share"
+               android:layout_width="0dp"
+               android:layout_weight="1"
+               android:layout_height="wrap_content" />
+       </LinearLayout>
+   </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_height="10px"
+
+        android:background="?android:attr/listDivider"/>
+
+</LinearLayout>

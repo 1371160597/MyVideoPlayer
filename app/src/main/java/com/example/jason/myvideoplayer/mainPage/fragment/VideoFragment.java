@@ -1,10 +1,13 @@
 package com.example.jason.myvideoplayer.mainPage.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,6 +20,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.jason.myvideoplayer.R;
+import com.example.jason.myvideoplayer.customControls.VpSwipeRefreshLayout;
 import com.example.jason.myvideoplayer.mainPage.adapter.VideoRecyclerAdapter;
 import com.example.jason.myvideoplayer.mainPage.gson.TabTypeItemForVideoGson;
 import com.example.jason.myvideoplayer.mainPage.recyclerModel.RecyclerType3Photo;
@@ -24,23 +28,21 @@ import com.example.jason.myvideoplayer.mainPage.recyclerModel.RecyclerType2Photo
 import com.example.jason.myvideoplayer.mainPage.recyclerModel.RecyclerType4Photo;
 import com.example.jason.myvideoplayer.mainPage.recyclerModel.RecyclerType5Photo;
 import com.example.jason.myvideoplayer.mainPage.recyclerModel.RecyclerType6Photo;
-import com.example.jason.myvideoplayer.mainPage.util.HttpUtil;
-import com.example.jason.myvideoplayer.mainPage.util.VideoDealJsonUtil;
+import com.example.jason.myvideoplayer.mainPage.util.HttpUtilManager;
+import com.example.jason.myvideoplayer.mainPage.util.HttpUtilUrl;
+import com.example.jason.myvideoplayer.mainPage.util.Parameter;
+import com.example.jason.myvideoplayer.videoDetail.VideoDetailActivity;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
+import com.youth.banner.listener.OnBannerListener;
 import com.youth.banner.loader.ImageLoader;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
-
-
-public class VideoFragment extends Fragment {
+@SuppressLint("ValidFragment")
+public class VideoFragment extends Fragment implements BaseQuickAdapter.OnItemClickListener, OnBannerListener, BaseQuickAdapter.OnItemChildClickListener {
 
     private static final int ITEM0 = 0;//0表示加了banner
     private static final int ITEM1 = 1;//1表示加标题
@@ -53,12 +55,18 @@ public class VideoFragment extends Fragment {
     private List<VideoRecyclerAdapter.VideoRecycler> data;
     private View videoBanner;
     private Banner banner;
-    private List<Uri> images;
-    private List<String> titles;
-
+    private List<Uri> images;//banner的图片地址
+    private List<String> titles;//banner的标题
+    private List<String> imageAndTitleId;//banner的jumpId
+    private List<String> jumpKind;//banner的jumpKind
     private TabTypeItemForVideoGson result;
+    private VpSwipeRefreshLayout mSwipeRefresh;
 
 
+
+    public VideoFragment() {
+        super();
+    }
 
     public VideoFragment(String id,String name) {
         channelId = id;
@@ -75,6 +83,7 @@ public class VideoFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_video, container, false);
         text = (TextView) view.findViewById(R.id.test);
+        mSwipeRefresh = (VpSwipeRefreshLayout) view.findViewById(R.id.recycler_view_swipe_refresh);
         videoBanner = inflater.inflate(R.layout.video_banner, container, false);
         banner = (Banner) videoBanner.findViewById(R.id.video_banners);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
@@ -85,6 +94,15 @@ public class VideoFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         text.setText("欢迎来到第" + channelId + "页！");
+
+
+        mSwipeRefresh.setColorSchemeResources(R.color.colorPrimary);
+        mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                requestHttpForVideoChannel();
+            }
+        });
 
         requestHttpForVideoChannel();
     }
@@ -107,7 +125,6 @@ public class VideoFragment extends Fragment {
 
     }
 
-
     private void initBanner() {
         banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR_TITLE_INSIDE);
         banner.setImageLoader(new ImageLoader() {
@@ -122,6 +139,7 @@ public class VideoFragment extends Fragment {
         banner.isAutoPlay(true);
         banner.setDelayTime(3000);
         banner.setIndicatorGravity(BannerConfig.RIGHT);
+        banner.setOnBannerListener(this);
         banner.start();
     }
 
@@ -131,8 +149,12 @@ public class VideoFragment extends Fragment {
         String imgHUrlToMobile1 = null;
         String imgHUrlToMobile2 = null;
         String name = null;
+        String jumpId = null;
+        String jumpModel = null;
         images = new ArrayList();
         titles = new ArrayList<>();
+        imageAndTitleId = new ArrayList<>();
+        jumpKind = new ArrayList<>();
 
         for (int i = 0; i < bannerNumber; i++) {
             imgHUrlToMobile = result.data.get(0).moduleData.get(i).phoneImgUrl;
@@ -157,13 +179,19 @@ public class VideoFragment extends Fragment {
             name = result.data.get(0).moduleData.get(i).name;
             titles.add(name);
         }
+
+        for (int i = 0; i < bannerNumber; i++) {
+            jumpId = result.data.get(0).moduleData.get(i).jumpId;
+            imageAndTitleId.add(jumpId);
+            jumpModel = result.data.get(0).moduleData.get(i).jumpKind;
+            jumpKind.add(jumpModel);
+        }
     }
 
     private void initRecyclerBannerAdapter(int type){
         adapter = new VideoRecyclerAdapter(null);
 //        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2,GridLayoutManager.VERTICAL,false));
-
         recyclerView.setAdapter(adapter);
         adapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {//更改布局，如果是为title，就占所有行
             @Override
@@ -185,16 +213,24 @@ public class VideoFragment extends Fragment {
             }
         });
         adapter.setNewData(getData(type));
+
+        if(videoBanner.getParent() != null && videoBanner instanceof ViewGroup){
+            //先去除banner的父布局，重新加载
+            ((ViewGroup)videoBanner.getParent()).removeView(videoBanner);
+        }
         adapter.setHeaderView(videoBanner);
+        adapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
+//        adapter.isFirstOnly(false);
+        adapter.setOnItemClickListener(this);
     }
 
     private void initRecyclerNoBannerAdapter(int type){
         adapter = new VideoRecyclerAdapter(null);
 //        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),3));
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),3,GridLayoutManager.VERTICAL,false));
         recyclerView.setAdapter(adapter);
-        adapter.setNewData(getData(type));
+        adapter.setOnItemClickListener(this);
+        adapter.setOnItemChildClickListener(this);
     }
 
     public List<VideoRecyclerAdapter.VideoRecycler> getData(int type) {
@@ -211,14 +247,17 @@ public class VideoFragment extends Fragment {
                         break;
                     case "scrossm":
                         int size = result.data.get(i).moduleData.size();
-                        String imgHUrl,rightCorner,updateInfo,name,subName;
+                        String imgHUrl,rightCorner,updateInfo,name,subName,jumpId,childId,jumpKind;
                         for (int j = 0; j < size; j++) {
                             imgHUrl = result.data.get(i).moduleData.get(j).imgHUrl;
                             rightCorner = result.data.get(i).moduleData.get(j).rightCorner;
                             updateInfo = result.data.get(i).moduleData.get(j).updateInfo;
                             name = result.data.get(i).moduleData.get(j).name;
                             subName = result.data.get(i).moduleData.get(j).subName;
-                            RecyclerType2Photo typePhoto = new RecyclerType2Photo(imgHUrl,rightCorner,updateInfo,name,subName);
+                            jumpId = result.data.get(i).moduleData.get(j).jumpId;
+                            childId = result.data.get(i).moduleData.get(j).childId;
+                            jumpKind = result.data.get(i).moduleData.get(j).jumpKind;
+                            RecyclerType2Photo typePhoto = new RecyclerType2Photo(imgHUrl,rightCorner,updateInfo,name,subName,jumpId,childId,jumpKind);
                             data.add(new VideoRecyclerAdapter.VideoRecycler(typePhoto, VideoRecyclerAdapter.VideoRecycler.TYPE2));
                         }
                         break;
@@ -288,37 +327,77 @@ public class VideoFragment extends Fragment {
     }
 
     private void requestHttpForVideoChannel() {
-        String address = "http://st.bz.mgtv.com/odin/c1/channel/index?_support=10100001&device=NX569H&osVersion=6.0.1&appVersion=5.5.5&ticket=78441TCWAMPCDSQLB44B&userId=0&mac=i864226030602243&osType=android&channel=yybcpd&uuid=babdbb65108e46048ccd15718e7e3f8d&endType=mgtvapp&androidid=be8d1ef80bd69321&imei=864226030602243&macaddress=02%3A00%3A00%3A00%3A00%3A00&seqId=34a14e3cb38dab8364b32414835a9032&version=5.2&type=10&abroad=0&uid=babdbb65108e46048ccd15718e7e3f8d&vclassId=" + channelId + "&timestamp=0";
-        HttpUtil.sendOkHttpRequest(address, new Callback() {
-
+        String address = HttpUtilUrl.getEveryChannel(channelId);
+        HttpUtilManager.getInstance().getVideoEveryChannel(address, new HttpUtilManager.CallBack<TabTypeItemForVideoGson>() {
             @Override
-            public void onFailure(Call call, IOException e) {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getActivity(), "无网络连接，请检查网络后重试。", Toast.LENGTH_SHORT).show();
-                    }
-                });
+            public void onSuccess(TabTypeItemForVideoGson mResult) {
+                if(mResult.data == null)
+                    return;
+                result = mResult;
+                initVideoTabItemForVideoGsonData();
+                mSwipeRefresh.setRefreshing(false);
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                String responseText = response.body().string();
-                result = VideoDealJsonUtil.handleVideoTabItemResponse(responseText);
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(result.data == null)
-                            return;
-                        initVideoTabItemForVideoGsonData();
-//                        initImagesAndTitles();
-//                        initBanner();
-//                        initRecyclerAdapter();
-                    }
-                });
+            public void onFailure() {
+                Toast.makeText(getActivity(), "无网络连接，请检查网络后重试。", Toast.LENGTH_SHORT).show();
+                if (mSwipeRefresh.isRefreshing()) {
+                    mSwipeRefresh.setRefreshing(false);
+                }
             }
         });
     }
 
+    //recycler Item 点击事件
+    @Override
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        VideoRecyclerAdapter.VideoRecycler item = (VideoRecyclerAdapter.VideoRecycler) adapter.getItem(position);
+        switch (item.getItemType()) {
+            case VideoRecyclerAdapter.VideoRecycler.TYPE1:
+//                Toast.makeText(getContext(), "1."+item.title, Toast.LENGTH_SHORT).show();
+                break;
+            case VideoRecyclerAdapter.VideoRecycler.TYPE2:
+                Toast.makeText(getContext(), "2."+item.typePhoto.getJumpId(), Toast.LENGTH_SHORT).show();
+                Parameter parameter = new Parameter();
+                parameter.setJumpId(item.typePhoto.getJumpId());
+                parameter.setJumpKind(item.typePhoto.getJumpKind());
+                parameter.setJumpChildId(item.typePhoto.getChildId());
+                parameter.setJumpMessage("item_new");
+                Intent intent = new Intent(getContext(), VideoDetailActivity.class);
+                intent.putExtra("parameter_data", parameter);
+                startActivity(intent);
+                break;
+            case VideoRecyclerAdapter.VideoRecycler.TYPE3:
+                Toast.makeText(getContext(), "3."+item.type2Photo.getName(), Toast.LENGTH_SHORT).show();
+                break;
+            case VideoRecyclerAdapter.VideoRecycler.TYPE4:
+                Toast.makeText(getContext(), "4."+item.type4Photo.getName(), Toast.LENGTH_SHORT).show();
+                break;
+            case VideoRecyclerAdapter.VideoRecycler.TYPE5:
+                Toast.makeText(getContext(), "5."+item.type5Photo.getName(), Toast.LENGTH_SHORT).show();
+                break;
+            case VideoRecyclerAdapter.VideoRecycler.TYPE6:
+                Toast.makeText(getContext(), "6."+item.type6Photo.getName(), Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
 
+    @Override
+    public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+
+    }
+
+    //banner点击事件监听
+    @Override
+    public void OnBannerClick(int position) {
+        Parameter parameter = new Parameter();
+        parameter.setJumpId(imageAndTitleId.get(position));
+        parameter.setJumpKind(jumpKind.get(position));
+        parameter.setJumpMessage("banner");
+        Toast.makeText(getContext(), "提示jumpId："+imageAndTitleId.get(position), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "提示jumpKind："+jumpKind.get(position), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getContext(), VideoDetailActivity.class);
+        intent.putExtra("parameter_data", parameter);
+        startActivity(intent);
+    }
 }

@@ -11,13 +11,43 @@ public class RecyclerType2Photo {
     private String updateInfo;
     private String name;
     private String subName;
+    private String jumpId;
+    private String childId;
+    private String jumpKind;
 
-    public RecyclerType2Photo(String imageId, String rightCorner, String updateInfo, String name, String subName) {
+    public RecyclerType2Photo(String imageId, String rightCorner, String updateInfo, String name, String subName, String jumpId, String childId, String jumpKind) {
         this.imageId = imageId;
         this.rightCorner = rightCorner;
         this.updateInfo = updateInfo;
         this.name = name;
         this.subName = subName;
+        this.jumpId = jumpId;
+        this.childId = childId;
+        this.jumpKind = jumpKind;
+    }
+
+    public String getJumpKind() {
+        return jumpKind;
+    }
+
+    public void setJumpKind(String jumpKind) {
+        this.jumpKind = jumpKind;
+    }
+
+    public String getChildId() {
+        return childId;
+    }
+
+    public void setChildId(String childId) {
+        this.childId = childId;
+    }
+
+    public String getJumpId() {
+        return jumpId;
+    }
+
+    public void setJumpId(String jumpId) {
+        this.jumpId = jumpId;
     }
 
     public String getImageId() {

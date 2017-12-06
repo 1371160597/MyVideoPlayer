@@ -11,10 +11,22 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="" />
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+
+    <!--<android.support.v4.widget.SwipeRefreshLayout-->
+        <!--android:id="@+id/recycler_view_swipe_refresh"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+    <com.example.jason.myvideoplayer.customControls.VpSwipeRefreshLayout
+    android:id="@+id/recycler_view_swipe_refresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    <!--</android.support.v4.widget.SwipeRefreshLayout>-->
+    </com.example.jason.myvideoplayer.customControls.VpSwipeRefreshLayout>
 
 
 </FrameLayout>

@@ -1,8 +1,6 @@
 package com.example.jason.myvideoplayer.mainPage.util;
 
 
-import android.util.Log;
-
 import com.example.jason.myvideoplayer.mainPage.gson.TabTypeGson;
 import com.example.jason.myvideoplayer.mainPage.gson.TabTypeItemForVideoGson;
 import com.google.gson.Gson;

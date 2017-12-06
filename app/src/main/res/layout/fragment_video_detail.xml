@@ -1,0 +1,118 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context="com.example.jason.myvideoplayer.videoDetail.fragment.VideoDetailFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@color/colorItem4"
+        android:layout_height="205dp">
+        <SurfaceView
+            android:id="@+id/surface_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/video_detail_back"
+            android:layout_width="25dp"
+            android:src="@drawable/video_detail_back"
+            android:layout_height="25dp" />
+        <ProgressBar
+            android:id="@+id/video_detail_progressbar"
+            android:layout_width="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:id="@+id/video_detail_function_layout"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/video_detail_image_play"
+                android:layout_width="25dp"
+                android:src="@drawable/video_detail_pause"
+                android:layout_height="25dp" />
+            <TextView
+                android:id="@+id/video_detail_text_start_time"
+                android:textColor="#ffffff"
+                android:layout_marginLeft="10dp"
+                android:text="00:00"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <SeekBar
+                android:id="@+id/video_detail_seek_bar"
+                android:layout_width="0dp"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/video_detail_text_all_time"
+                android:textColor="#ffffff"
+                android:text="00:00"
+                android:layout_marginLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:layout_marginLeft="10dp"
+                android:id="@+id/video_detail_image_all_screen"
+                android:src="@drawable/video_detail_all_screen"
+                android:layout_width="25dp"
+                android:layout_height="25dp" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <TextView
+        android:text=""
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/video_detail_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+    <!--<android.support.v4.widget.NestedScrollView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+       <!--<LinearLayout-->
+           <!--android:layout_width="match_parent"-->
+           <!--android:layout_height="wrap_content">-->
+           <!--&lt;!&ndash;基本信息&ndash;&gt;-->
+           <!--<LinearLayout-->
+               <!--android:layout_width="match_parent"-->
+               <!--android:layout_height="wrap_content">-->
+
+           <!--</LinearLayout>-->
+           <!--&lt;!&ndash;正片&ndash;&gt;-->
+           <!--<LinearLayout-->
+               <!--android:orientation="vertical"-->
+               <!--android:layout_width="match_parent"-->
+               <!--android:layout_height="wrap_content">-->
+               <!--<TextView-->
+                   <!--android:layout_width="wrap_content"-->
+                   <!--android:layout_height="wrap_content" />-->
+               <!--<android.support.v7.widget.RecyclerView-->
+                   <!--android:layout_width="match_parent"-->
+                   <!--android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>-->
+           <!--</LinearLayout>-->
+           <!--&lt;!&ndash;花絮片段&ndash;&gt;-->
+           <!--<android.support.v7.widget.RecyclerView-->
+               <!--android:layout_width="match_parent"-->
+               <!--android:layout_height="wrap_content">-->
+
+           <!--</android.support.v7.widget.RecyclerView>-->
+       <!--</LinearLayout>-->
+    <!--</android.support.v4.widget.NestedScrollView>-->
+
+</LinearLayout>

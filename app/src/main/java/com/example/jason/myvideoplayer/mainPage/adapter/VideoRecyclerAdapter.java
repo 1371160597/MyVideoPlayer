@@ -13,6 +13,7 @@ import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.example.jason.myvideoplayer.R;
+import com.example.jason.myvideoplayer.mainPage.fragment.VideoFragment;
 import com.example.jason.myvideoplayer.mainPage.recyclerModel.RecyclerType3Photo;
 import com.example.jason.myvideoplayer.mainPage.recyclerModel.RecyclerType2Photo;
 import com.example.jason.myvideoplayer.mainPage.recyclerModel.RecyclerType4Photo;
